@@ -15,13 +15,13 @@
 <center>
     <h1>Customer list</h1>
     <h2><a href="/customers?action=create">Add New User</a></h2>
-    <%--    <form method="get">--%>
-    <%--        <input type="text" name="searchCountry">--%>
-    <%--        <input type="hidden" name="action" value="search">--%>
-    <%--        <button>Search</button>--%>
-    <%--    </form>--%>
-    <%--    <h2><a href="/users?action=search">Search By Country</a></h2>--%>
-    <%--    <h2><a href="/users?action=sort"> Sort By Name</a></h2>--%>
+        <form method="get">
+            <input type="text" name="searchName">
+            <input type="hidden" name="action" value="search">
+            <button>Search</button>
+        </form>
+        <h2><a href="/customers?action=sort"> Sort By Name</a></h2>
+    <h2><a href="/customers?action=all">List All</a> </h2>
 </center>
 <div align="center">
     <table border="1" cellpadding="5">

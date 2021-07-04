@@ -35,6 +35,16 @@ public class CustomerServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "sort":
+                sortByName(request,response);
+                break;
+            case "search":
+                findByName(request,response);
+                break;
+            case "all":
+
+                listCustomer(request,response);
+                break;
             default:
                 listCustomer(request, response);
                 break;
@@ -88,6 +98,19 @@ public class CustomerServlet extends HttpServlet {
         dispatcher.forward(request,response);
     }
 
+    private void sortByName(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        List <Customer> list = customerDao.sortByName();
+        request.setAttribute("customerList",list);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/list.jsp");
+        dispatcher.forward(request,response);
+    }
+    private void findByName(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("searchName");
+        List <Customer> list = customerDao.findByName(name);
+        request.setAttribute("customerList",list);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/list.jsp");
+        dispatcher.forward(request,response);
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");

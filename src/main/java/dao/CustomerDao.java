@@ -16,6 +16,8 @@ public class CustomerDao implements ICustomerDao {
     private final String UPDATE_CUSTOMER = "update cus set name = ?, age =? where id = ?;";
     private static final String SELECT_CUSTOMER_BY_ID = "select * from cus where id =?;";
     private static final String DELETE_CUSTOMER_SQL = "delete from cus where id = ?;";
+    private static final String SORT_BY_NAME = "SELECT * from cus order by name ;";
+    private static final String FIND_BY_NAME = "SELECT * from cus where cus.name like ? ;";
     SQLConnection sqlConnection = new SQLConnection();
 
     @Override
@@ -67,7 +69,21 @@ public class CustomerDao implements ICustomerDao {
 
     @Override
     public List<Customer> sortByName() {
-        return null;
+        List<Customer> customers = new ArrayList<>();
+        try {
+
+            Connection connection = sqlConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SORT_BY_NAME);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int age = rs.getInt("age");
+                customers.add(new Customer(name, age));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
     @Override
@@ -94,6 +110,21 @@ public class CustomerDao implements ICustomerDao {
 
     @Override
     public List<Customer> findByName(String name) {
-        return null;
+        List<Customer> list = new ArrayList<>();
+        try {
+            Connection connection = sqlConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_NAME);
+            statement.setString(1, "%" + name + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String name1 = rs.getString("name");
+                int age = rs.getInt("age");
+                list.add(new Customer(name1, age));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }
